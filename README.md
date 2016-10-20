@@ -7,7 +7,7 @@ intelligible values.
 
 ###Usage
 
-```
+```javascript
 $(function() {
     var transforms = $(".transformed").unmatrix();
 });
