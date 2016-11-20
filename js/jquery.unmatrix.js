@@ -4,15 +4,15 @@
         return rad * (180 / Math.PI);
     };
 
-    // Returns the determinant of matrix 
+    // Returns the determinant of matrix
     var determinant = function (matrix) {
         return S.Matrix(matrix).determinant();
-    };     
-    
+    };
+
     // Returns the inverse of matrix
     var inverse = function (matrix) {
         return S.Matrix(matrix).inverse().elements;
-    };      
+    };
 
     // Returns the transpose of matrix
     var transpose = function (matrix) {
@@ -43,7 +43,7 @@
     var cross = function (vector1, vector2) {
         return S.Vector(vector1).cross(vector2).elements;
     };
-    
+
     var combine = function (a, b, ascl, bscl) {
         var result = [];
         result[0] = (ascl * a[0]) + (bscl * b[0]);
@@ -54,19 +54,19 @@
         }
         return result;
     };
-    
+
     // Returns null if the matrix cannot be decomposed, an object if it can
     var unmatrix = function (matrix) {
         var rotateX;
         var rotateY;
-        var rotateZ; 
+        var rotateZ;
         var scaleX;
         var scaleY;
         var scaleZ;
         var skew;
         var skewX;
         var skewY;
-        var translateX; 
+        var translateX;
         var translateY;
         var translateZ;
 
@@ -80,9 +80,9 @@
                 matrix[i][j] /= matrix[3][3];
             }
         }
-        
-        // perspectiveMatrix is used to solve for perspective, but it also 
-        // provides an easy way to test for singularity of the upper 3x3 
+
+        // perspectiveMatrix is used to solve for perspective, but it also
+        // provides an easy way to test for singularity of the upper 3x3
         // component
         var perspectiveMatrix = matrix;
 
@@ -106,12 +106,12 @@
             rightHandSide[2] = matrix[2][3];
             rightHandSide[3] = matrix[3][3];
 
-            // Solve the equation by inverting perspectiveMatrix and multiplying 
+            // Solve the equation by inverting perspectiveMatrix and multiplying
             // rightHandSide by the inverse
             var inversePerspectiveMatrix = inverse(perspectiveMatrix);
             var transposedInversePerspectiveMatrix = transpose(inversePerspectiveMatrix);
             perspective = multiplyVectorMatrix(rightHandSide, transposedInversePerspectiveMatrix);
-            
+
             // Clear the perspective partition
             matrix[0][3] = matrix[1][3] = matrix[2][3] = 0;
             matrix[3][3] = 1;
@@ -130,10 +130,10 @@
         translateZ = matrix[3][2];
         //matrix[3][2] = 0;
 
-        // Now get scale and shear. "row" is a 3 element array of 3 component 
+        // Now get scale and shear. "row" is a 3 element array of 3 component
         // vectors
         var row = [[], [], []];
-        
+
         for (var i = 0; i < 3; i++) {
             row[i][0] = matrix[i][0];
             row[i][1] = matrix[i][1];
@@ -152,7 +152,7 @@
         scaleY = length(row[1]);
         row[1] = normalize(row[1]);
         skew /= scaleY;
-        
+
         // Compute XZ and YZ shears, orthogonalize 3rd row
         skewX = dot(row[0], row[2]);
         row[2] = combine(row[2], row[0], 1.0, -skewX);
@@ -164,12 +164,12 @@
         row[2] = normalize(row[2]);
         skewX /= scaleZ;
         skewY /= scaleZ;
-        
-        // At this point, the matrix (in rows) is orthonormal. Check for a 
-        // coordinate system flip. If the determinant is -1, then negate the 
+
+        // At this point, the matrix (in rows) is orthonormal. Check for a
+        // coordinate system flip. If the determinant is -1, then negate the
         // matrix and the scaling factors
         var pdum3 = cross(row[1], row[2]);
-        
+
         if (dot(row[0], pdum3) < 0) {
             for (var i = 0; i < 3; i++) {
                 scaleX *= -1;
@@ -188,36 +188,36 @@
             rotateX = Math.atan2(-row[2][0], row[1][1]);
             rotateZ = 0;
         }
-        
+
         return {
             rotate:     deg(rotateZ),
             rotateX:    deg(rotateX),
-            rotateY:    deg(rotateY), 
-            rotateZ:    deg(rotateZ), 
+            rotateY:    deg(rotateY),
+            rotateZ:    deg(rotateZ),
             scaleX:     scaleX,
-            scaleY:     scaleY, 
+            scaleY:     scaleY,
             scaleZ:     scaleZ,
             skew:       deg(skew),
-            skewX:      deg(skewX), 
+            skewX:      deg(skewX),
             skewY:      deg(skewY),
-            translateX: translateX, 
+            translateX: translateX,
             translateY: translateY,
             translateZ: translateZ
         };
     };
-    
+
     // Returns an object with transform properties
-    var getTransform = function (cssTransform) {
+    var getTransforms = function (cssTransforms) {
         // Check if the transform is 3d
-        var is3d = cssTransform.indexOf("matrix3d") > -1;
-        
+        var is3d = cssTransforms.indexOf("matrix3d") > -1;
+
         // Convert matrix values to an array
-        cssTransform = cssTransform.match(/[\d\s\.\,\-]+(?!d)/)[0];
-        var values = cssTransform.split(",");
-        
+        var transforms = cssTransforms.match(/[\d\s\.\,\-]+(?!d)/)[0];
+        var values = transforms.split(",");
+
         // Convert values to floats
         for (var i = 0, l = values.length; i < l; i++) {
-            values[i] = parseFloat(values[i]).toFixed(2);
+            values[i] = parseFloat(values[i]);
         }
 
         // Matrix columns become arrays
@@ -226,7 +226,7 @@
                                 [values[4],   values[5],  values[6],  values[7]],
                                 [values[8],   values[9],  values[10], values[11]],
                                 [values[12],  values[13], values[14], values[15]]
-                            ] : 
+                            ] :
                             [ // Create 4x4 2d matrix
                                 [values[0],   values[1],  0,          0],
                                 [values[2],   values[3],  0,          0],
@@ -236,35 +236,35 @@
 
         return unmatrix(matrix);
     };
-    
+
     $.fn.unmatrix = function () {
-        var properties = ["transform", "MozTransform", "msTransform", "OTransform", "webkitTransform"];              
+        var properties = ["transform", "MozTransform", "msTransform", "OTransform", "webkitTransform"];
         var transformProperty = "";
-        
+
         // Check if browser supports transforms
         $.each(properties, function (index, property) {
             if (property in document.body.style) {
                 transformProperty = property;
-                return false;
+                return;
             }
         });
-        
+
         if (!transformProperty) {
             // Browser does not support transforms
             return false;
         } else {
             // Browser supports transforms
-            var transforms = [];
-            
+            var allTransforms = [];
+
             this.each(function () {
-                var cssTransform = $(this).css(transformProperty);
-                var transform = cssTransform !== "none" ? 
-                                getTransform(cssTransform) : 
+                var cssTransforms = $(this).css(transformProperty);
+                var transforms = cssTransforms !== "none" ?
+                                getTransforms(cssTransforms) :
                                 {};
-                transforms.push(transform);
+                allTransforms.push(transforms);
             });
-            
-            return transforms;
+
+            return allTransforms;
         }
     };
 })(jQuery, Sylvester, window, document);
