@@ -259,8 +259,8 @@
             this.each(function () {
                 var cssTransforms = $(this).css(transformProperty);
                 var transforms = cssTransforms !== "none" ?
-                                getTransforms(cssTransforms) :
-                                {};
+                                 getTransforms(cssTransforms) :
+                                 {};
                 allTransforms.push(transforms);
             });
 
