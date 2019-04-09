@@ -1,0 +1,23 @@
+{
+  "name": "unmatrix",
+  "version": "1.0.0",
+  "description": "Unmatrix is a JS module that decomposes a transform matrix to the original values.",
+  "main": "index.js",
+  "dependencies": {
+    "sylvester-es6": "0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stassop/unmatrix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stassop/unmatrix/issues"
+  },
+  "homepage": "https://github.com/stassop/unmatrix#readme"
+}

@@ -1,57 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Unmatrix</title>
-    	  <meta charset="utf-8" />
-        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="js/sylvester/sylvester_0.1.3.js"></script>
-        <script src="js/jquery.unmatrix.js"></script>
-        <style>
-            #transform1,
-            #transform2 {
-              color: white;
-              font-family: sans-serif;
-              font-size: 0.5em;
-              height: 60px;
-              padding: 10px;
-              position: absolute;
-              width: 60px;
-              top: 0;
-            }
+  <head>
+      <title>Unmatrix</title>
+      <meta name="viewport" content="user-scalable=no, width=device-width">
+      <style>
+        #el1, #el2 {
+          color: white;
+          height: 100px;
+          position: absolute;
+          width: 100px;
+        }
 
-            #transform1 {
-              background-color: blue;
-              transform: scale(2, 3) translate(50px, 50px) skewX(30deg) skewY(15deg) rotate(45deg);
-            }
+        #el1 {
+          top: 20px;
+          left: 20px;
+          background-color: blue;
+          transform: scale(1, 2) translate(50px, 50px) skew(30deg, 15deg) rotate(45deg);
+        }
 
-            #transform2 {
-              background-color: red;
-              left: 200px;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="transform1">CSS transforms (original)</div>
-        <div id="transform2">Decomposed matrix values</div>
-        <script>
-            $(function () {
-                var transforms = $("#transform1").unmatrix()[0];
-
-                var cssTransforms =
-                    "translate(" +
-                        transforms.translateX + "px," +
-                        transforms.translateY + "px) " +
-                    "rotate(" +
-                        transforms.rotate + "deg) " +
-                    "skew(" +
-                        transforms.skew + "deg) " +
-                    "scale(" +
-                        transforms.scaleX + "," +
-                        transforms.scaleY + ")";
-
-                $("#transform2").css("transform", cssTransforms);
-            });
-        </script>
-    </body>
+        #el2 {
+          top: 20px;
+          left: 200px;
+          background-color: red;
+        }
+      </style>
+  </head>
+  <body>
+    <div id="el1">Original</div>
+    <div id="el2">Decomposed</div>
+    <!-- Get #el1 transforms and apply them to #el2 -->
+    <script type="module">
+      import Unmatrix from './src/Unmatrix.js';
+      const el1 = document.querySelector('#el1');
+      const t1 = Unmatrix.getTransform(el1);
+      const t2 =
+        `translate(${t.translateX}px,${t1.translateY}px)
+        rotate(${t1.rotateZ}deg)
+        skew(${t1.skewX}deg)
+        scale(${t1.scaleX},${t1.scaleY})`
+      const el2 = document.querySelector('#el2');
+      el2.style.transform = t2;
+    </script>
+  </body>
 </html>
