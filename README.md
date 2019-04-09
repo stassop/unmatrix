@@ -32,6 +32,8 @@ When interpolating between two matrices, each is decomposed into the
 corresponding translation, rotation, scale, skew and perspective values.
 Not all matrices can be accurately described by these values.
 Those that can't are decomposed into the most accurate representation possible.
-This technique works on a 4x4 homogeneous matrix. For more information see
+This technique works on a 4x4 homogeneous matrix.
+
+For more information see
 [here](https://drafts.csswg.org/css-transforms-1/#decomposing-a-2d-matrix) and
 [here](https://drafts.csswg.org/css-transforms-2/#decomposing-a-3d-matrix)
