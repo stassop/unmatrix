@@ -20,7 +20,7 @@ const transform = Unmatrix.getTransform(element);
 
 Unmatrix uses James Coglan's library
 [Sylvester](http://sylvester.jcoglan.com/)
-in the npm module
+as the npm module
 [sylvester-es6](https://www.npmjs.com/package/sylvester-es6),
 so it has to be available for the Unmatrix module to import.
 
