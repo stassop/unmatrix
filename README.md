@@ -19,11 +19,14 @@ const transform = Unmatrix.getTransform(element);
 ### Notes
 
 Unmatrix uses James Coglan's library
-[Sylvester](http://sylvester.jcoglan.com/),
+[Sylvester](http://sylvester.jcoglan.com/)
+in the npm module
+[sylvester-es6](https://www.npmjs.com/package/sylvester-es6),
 so it has to be available for the Unmatrix module to import.
-This demo uses
-[sylvester-es6](https://www.npmjs.com/package/sylvester-es6)
-npm module.
+
+The decomposition method is based upon the "unmatrix" method in
+"Graphics Gems II, edited by Jim Arvo", but modified to use Quaternions instead
+of Euler angles to avoid the problem of Gimbal Locks.
 
 When interpolating between two matrices, each is decomposed into the
 corresponding translation, rotation, scale, skew and perspective values.
