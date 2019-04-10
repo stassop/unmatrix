@@ -1,49 +1,49 @@
-// import { Matrix, Vector } from 'Sylvester'
+import { Matrix, Vector } from 'sylvester-es6'
 
 class Unmatrix {
   // Convert radians to degrees
-  radToDeg (rad) {
+  rad2deg (rad) {
     return rad * (180 / Math.PI);
   }
 
   // Determinant of a matrix
-  matrixDeterminant (matrix) {
-    return Matrix(matrix).determinant();
+  determinant (matrix) {
+    return new Matrix(matrix).determinant();
   }
 
   // Inverse of a matrix
-  matrixInverse (matrix) {
-    return Matrix(matrix).inverse().elements;
+  inverse (matrix) {
+    return new Matrix(matrix).inverse().elements;
   }
 
   // Transpose of a matrix
-  matrixTranspose (matrix) {
-    return Matrix(matrix).transpose().elements;
+  transpose (matrix) {
+    return new Matrix(matrix).transpose().elements;
   }
 
-  // Multiply a vector by a matrix and returns the transformed vector
-  transformVectorByMatrix (vector, matrix) {
-    return Matrix(matrix).multiply(vector).elements;
+  // Multiply a point by a matrix and return the transformed point
+  multVecMatrix (point, matrix) {
+    return new Matrix(matrix).multiply(point).elements;
   }
 
   // Get the length of a vector
-  vectorLength (vector) {
-    return Vector(vector).modulus();
+  length (point) {
+    return new Vector(point).modulus();
   }
 
-  // Normalize the length of a vector to 1
-  normalizeVector (vector) {
-    return Vector(vector).toUnitVector().elements;
+  // Normalize the length of a point to 1
+  normalize (point) {
+    return new Vector(point).toUnitVector().elements;
   }
 
-  // Dot product of two vectors
-  vectorDot (vector1, vector2) {
-    return Vector(vector1).dot(vector2);
+  // Dot product of two points
+  dot (point1, point2) {
+    return new Vector(point1).dot(point2);
   }
 
-  // Cross product of two vectors
-  vectorCross (vector1, vector2) {
-    return Vector(vector1).cross(vector2).elements;
+  // Cross product of two points
+  cross (point1, point2) {
+    return new Vector(point1).cross(point2).elements;
   }
 
   // TODO: Explain this function
@@ -59,7 +59,7 @@ class Unmatrix {
   }
 
   // Return a transform object if matrix can be decomposed, null if it can't
-  decomposeMatrix (matrix) {
+  decompose (matrix) {
     let transform = {};
 
     // Normalize the matrix
@@ -83,7 +83,7 @@ class Unmatrix {
 
     perspectiveMatrix[3][3] = 1;
 
-    if (matrixDeterminant(perspectiveMatrix) === 0) {
+    if (this.determinant(perspectiveMatrix) === 0) {
       return null;
     }
 
@@ -99,9 +99,9 @@ class Unmatrix {
 
       // Solve the equation by inverting perspectiveMatrix and multiplying
       // rightHandSide by the inverse
-      let perspectiveMatrixInverse = matrixInverse(perspectiveMatrix);
-      let perspectiveMatrixInverseTranspose = matrixTranspose(inversePerspectiveMatrix);
-      perspective = transformVectorByMatrix(rightHandSide, perspectiveMatrixInverseTranspose);
+      let perspectiveMatrixInverse = this.inverse(perspectiveMatrix);
+      let perspectiveMatrixInverseTranspose = this.transpose(inversePerspectiveMatrix);
+      perspective = this.multVecMatrix(rightHandSide, perspectiveMatrixInverseTranspose);
 
       // Clear the perspective partition
       matrix[0][3] = matrix[1][3] = matrix[2][3] = 0;
@@ -115,9 +115,9 @@ class Unmatrix {
     }
 
     // Next take care of translation
-    transform.translateX = matrix[3][0];
-    transform.translateY = matrix[3][1];
-    transform.translateZ = matrix[3][2];
+    let translateX = matrix[3][0];
+    let translateY = matrix[3][1];
+    let translateZ = matrix[3][2];
 
     // Now get scale and shear
     // row is a 3 element array of 3 component vectors
@@ -130,39 +130,35 @@ class Unmatrix {
     }
 
     // Compute X scale factor and normalize first row
-    let scaleX = vectorLength(row[0]);
-    row[0] = normalizeVector(row[0]);
+    let scaleX = this.length(row[0]);
+    row[0] = this.normalize(row[0]);
 
     // Compute XY shear factor and make 2nd row orthogonal to 1st
-    let skew = vectorDot(row[0], row[1]);
-    row[1] = combine(row[1], row[0], 1.0, -skew);
+    let skew = this.dot(row[0], row[1]);
+    row[1] = this.combine(row[1], row[0], 1.0, -skew);
 
     // Now, compute Y scale and normalize 2nd row
-    let scaleY = vectorLength(row[1]);
-    row[1] = normalizeVector(row[1]);
+    let scaleY = this.length(row[1]);
+    row[1] = this.normalize(row[1]);
     skew /= scaleY;
 
     // Compute XZ and YZ shears, orthogonalize 3rd row
-    let skewX = vectorDot(row[0], row[2]);
-    row[2] = combine(row[2], row[0], 1.0, -skewX);
-    let skewY = vectorDot(row[1], row[2]);
-    row[2] = combine(row[2], row[1], 1.0, -skewY);
+    let skewX = this.dot(row[0], row[2]);
+    row[2] = this.combine(row[2], row[0], 1.0, -skewX);
+    let skewY = this.dot(row[1], row[2]);
+    row[2] = this.combine(row[2], row[1], 1.0, -skewY);
 
     // Next, get Z scale and normalize 3rd row
-    let scaleZ = vectorLength(row[2]);
-    row[2] = normalizeVector(row[2]);
+    let scaleZ = this.length(row[2]);
+    row[2] = this.normalize(row[2]);
     skewX /= scaleZ;
     skewY /= scaleZ;
-
-    transform.skewX = radToDeg(skewX);
-    transform.skewY = radToDeg(skewY);
 
     // At this point, the matrix (in rows) is orthonormal. Check for a
     // coordinate system flip. If the determinant is -1, then negate the
     // matrix and the scaling factors
-    let pdum3 = vectorCross(row[1], row[2]);
-
-    if (vectorDot(row[0], pdum3) < 0) {
+    let pdum3 = this.cross(row[1], row[2]);
+    if (this.dot(row[0], pdum3) < 0) {
       for (let i = 0; i < 3; i++) {
         scaleX *= -1;
         row[i][0] *= -1;
@@ -171,26 +167,37 @@ class Unmatrix {
       }
     }
 
-    transform.scaleX = scaleX;
-    transform.scaleY = scaleY;
-    transform.scaleZ = scaleZ;
-
     // Get the rotations
-    transform.rotateY = Math.asin(-row[0][2]);
+    let rotateY = Math.asin(-row[0][2]);
+    let rotateX, rotateZ;
     if (Math.cos(transform.rotateY) !== 0) {
-      transform.rotateX = Math.atan2(row[1][2], row[2][2]);
-      transform.rotateZ = Math.atan2(row[0][1], row[0][0]);
+      rotateX = Math.atan2(row[1][2], row[2][2]);
+      rotateZ = Math.atan2(row[0][1], row[0][0]);
     }
     else {
-      transform.rotateX = Math.atan2(-row[2][0], row[1][1]);
-      transform.rotateZ = 0;
+      rotateX = Math.atan2(-row[2][0], row[1][1]);
+      rotateZ = 0;
     }
 
-    return transform;
+    return {
+      translateX: translateX,
+      translateY: translateY,
+      translateZ: translateZ,
+      rotate: this.rad2deg(rotateZ),
+      rotateX: this.rad2deg(rotateZ),
+      rotateY: this.rad2deg(rotateY),
+      rotateZ: this.rad2deg(rotateZ),
+      scaleX: scaleX,
+      scaleY: scaleY,
+      scaleZ: scaleZ,
+      skew: this.rad2deg(skew),
+      skewX: this.rad2deg(skewX),
+      skewY: this.rad2deg(skewY)
+    }
   }
 
   // Returns an object with transform properties
-  static getTransform (element) {
+  getTransform (element) {
     // Check if element is an HTML element
     if (!(element instanceof HTMLElement)) {
       return null;
@@ -210,7 +217,7 @@ class Unmatrix {
     // Convert matrix values to an array of floats
     transform = transform.match(/\((.+)\)/)[1];
     transform = transform.split(',');
-    t = transform.map(value => parseFloat(value))
+    let t = transform.map(value => parseFloat(value))
 
     // Convert transform to a matrix. Matrix columns become arrays
     let matrix = is3d
@@ -226,9 +233,9 @@ class Unmatrix {
           [ 0,     0,     1,     0 ],
           [ t[4],  t[5],  0,     1 ]
         ];
-    console.log(t);
-    // return decomposeMatrix(matrix);
+
+    return this.decompose(matrix);
   }
 }
 
-export default Unmatrix;
+export default new Unmatrix();

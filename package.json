@@ -4,11 +4,17 @@
   "description": "Unmatrix is a JS module that decomposes a transform matrix to the original values.",
   "main": "index.js",
   "dependencies": {
-    "sylvester-es6": "0.0.2"
+    "sylvester-es6": "0.0.2",
+    "webpack": "^4.29.6",
+    "webpack-dev-server": "^3.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack-cli": "^3.3.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
