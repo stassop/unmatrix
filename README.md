@@ -11,7 +11,7 @@ or `null` if no transform is found.
 ### Example
 
 ```javascript
-import Unmatrix from './src/Unmatrix.js';
+import Unmatrix from 'unmatrix';
 const element = document.querySelector('#myElement');
 const transform = Unmatrix.getTransform(element);
 ```
