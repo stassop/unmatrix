@@ -18,11 +18,9 @@ const transform = Unmatrix.getTransform(element);
 
 ### Notes
 
-Unmatrix uses James Coglan's library
-[Sylvester](http://sylvester.jcoglan.com/)
-as the npm module
-[sylvester-es6](https://www.npmjs.com/package/sylvester-es6),
-so it has to be available for the Unmatrix module to import.
+Unmatrix uses James Coglan's library [Sylvester](http://sylvester.jcoglan.com/).
+Hence [sylvester-es6](https://www.npmjs.com/package/sylvester-es6) npm module
+has to be available for Unmatrix to import.
 
 The decomposition method is based upon the "unmatrix" method in
 "Graphics Gems II, edited by Jim Arvo", but modified to use Quaternions instead
