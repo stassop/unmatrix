@@ -1,6 +1,6 @@
 {
   "name": "unmatrix",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Unmatrix is a JS module that decomposes a transform matrix to the original values.",
   "main": "index.js",
   "dependencies": {
