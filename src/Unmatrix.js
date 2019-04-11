@@ -237,5 +237,5 @@ class Unmatrix {
     return this.decompose(matrix);
   }
 }
-
+// Export an instance cuz Webpack :(
 export default new Unmatrix();
