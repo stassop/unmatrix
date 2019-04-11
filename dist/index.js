@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./main.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./main.js":
-/*!*****************!*\
-  !*** ./main.js ***!
-  \*****************/
+/***/ "./index.js":
+/*!******************!*\
+  !*** ./index.js ***!
+  \******************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src_Unmatrix_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/Unmatrix.js */ \"./src/Unmatrix.js\");\n\n\nconst el1 = document.querySelector('#el1');\nconst t1 = _src_Unmatrix_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getTransform(el1);\nconst t2 =\n  `translate(${t1.translateX}px,${t1.translateY}px)\n  rotate(${t1.rotate}deg)\n  scale(${t1.scaleX},${t1.scaleY})\n  skew(${t1.skew}deg)`\nconst el2 = document.querySelector('#el2');\n// Apply #el1 transform to #el2\nel2.style.transform = t2;\n\n\n//# sourceURL=webpack:///./main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src_Unmatrix_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/Unmatrix.js */ \"./src/Unmatrix.js\");\n\n\nconst el1 = document.querySelector('#el1');\nconst t1 = _src_Unmatrix_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getTransform(el1);\nconst t2 =\n  `translate(${t1.translateX}px,${t1.translateY}px)\n  rotate(${t1.rotate}deg)\n  scale(${t1.scaleX},${t1.scaleY})\n  skew(${t1.skew}deg)`\nconst el2 = document.querySelector('#el2');\n// Apply #el1 transform to #el2\nel2.style.transform = t2;\n\n\n//# sourceURL=webpack:///./index.js?");
 
 /***/ }),
 
