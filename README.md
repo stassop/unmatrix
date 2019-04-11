@@ -4,8 +4,9 @@ Unmatrix is a JS module that decomposes a transform matrix to the original value
 
 `Unmatrix.getTransform()`
 returns an object with properties
-`rotate`, `rotateX`, `rotateY`, `rotateZ`, `scaleX`, `scaleY`, `scaleZ`,
-`skew`, `skewX`, `skewY`, `translateX`, `translateY`, `translateZ`,
+`perspective`, `rotate`, `rotateX`, `rotateY`, `rotateZ`,
+`scaleX`, `scaleY`, `scaleZ`, `skew`, `skewX`, `skewY`,
+`translateX`, `translateY`, `translateZ`,
 or `null` if no transform is found.
 
 ### Demo
