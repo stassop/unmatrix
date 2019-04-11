@@ -10,6 +10,12 @@ or `null` if no transform is found.
 
 See demo [here](http://stassop.github.io/unmatrix/)
 
+### Install
+
+```
+npm install unmatrix
+```
+
 ### Example
 
 ```javascript
