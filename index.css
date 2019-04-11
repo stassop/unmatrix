@@ -1,0 +1,32 @@
+#el1, #el2 {
+  color: white;
+  height: 100px;
+  position: absolute;
+  width: 100px;
+}
+
+#el1 {
+  background-color: rgba(0,0,255,0.75);
+  transform: translate(100px, 150px) rotate(45deg) scale(1, 2) skew(10deg, 20deg);
+}
+
+#el2 {
+  animation: el2 2s linear infinite alternate;
+  background-color: rgba(255,0,0,0.75);
+  left: 150px;
+}
+
+@keyframes el2 {
+  0% {
+    left: 150px;
+  }
+  10% {
+    left: 150px;
+  }
+  80% {
+    left: 0;
+  }
+  100% {
+    left: 0;
+  }
+}
