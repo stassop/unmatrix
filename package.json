@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/stassop/unmatrix/issues"
   },
-  "homepage": "https://github.com/stassop/unmatrix#readme"
+  "homepage": "https://github.com/stassop/unmatrix#readme",
+  "keywords": [
+    "matrix",
+    "decompose",
+    "transform"
+  ]
 }
