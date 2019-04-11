@@ -210,7 +210,6 @@ class Unmatrix {
     }
 
     let transform = computedStyle.transform;
-
     // Check if transform is 3d
     let is3d = transform.includes('matrix3d');
 
