@@ -180,6 +180,7 @@ class Unmatrix {
     }
 
     return {
+      perspective: perspective,
       translateX: translateX,
       translateY: translateY,
       translateZ: translateZ,
