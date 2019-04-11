@@ -8,7 +8,7 @@ returns an object with properties
 `skew`, `skewX`, `skewY`, `translateX`, `translateY`, `translateZ`,
 or `null` if no transform is found.
 
-### [Demo](http://stassop.github.io/unmatrix/)
+See demo [here](http://stassop.github.io/unmatrix/)
 
 ### Example
 
