@@ -213,13 +213,15 @@ class Unmatrix {
     let transform = computedStyle.transform;
     // Check if transform is 3d
     let is3d = transform.includes('matrix3d');
-
-    // Convert matrix values to an array of floats
+    // Extract matrix values
     transform = transform.match(/\((.+)\)/)[1];
+    // Convert values to an array
     transform = transform.split(',');
+    // Convert values to floats
     let t = transform.map(value => parseFloat(value))
 
-    // Convert transform to a matrix. Matrix columns become arrays
+    // Create transform matrix
+    // Matrix columns become arrays
     let matrix = is3d
       ? [ // Create 4x4 3d matrix
           [ t[0],  t[1],  t[2],  t[3]  ],
